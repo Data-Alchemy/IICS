@@ -9,6 +9,13 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
 
+project =['']
+org     = ''
+user    = ''
+pwd     = ''
+jobid   = ''
+jobtype = ''
+
 ###########################################################
 ###########################################################
 
@@ -65,7 +72,19 @@ class IICS_Run_Job():
         }
         self.drunresponse = requests.request("POST", self.drunurl, headers=self.drunheaders, data=self.drunpayload)
         return self.drunresponse.json()
-            #{"content":self.drunresponse.json(),"headers":self.drunresponse.headers}
+
+    @property
+    def runtaskflow(self)->json:
+
+        self.drunurl = f"https://{self.auth()['run_domain']}.informaticacloud.com/active-bpel/odata/repository/v4/OdataRepository/Execute(Id='{self.jobid}')?publish=true"
+        self.drunpayload =  json.dumps({})
+        self.drunheaders = {
+            'content-type': 'application/json',
+            "Accept"      : "application/json",
+            "cookie": "USER_SESSION=" + self.auth()['token'] + ";" + "XSRF_TOKEN=DIS"
+        }
+        self.drunresponse = requests.request("GET", self.drunurl, headers=self.drunheaders, data=self.drunpayload)
+        return self.drunresponse.json()
 
 ########################## monitor jobs ##########################
 
@@ -139,7 +158,7 @@ class IICS_Run_Job():
             #'Data Integration'
 
         if 'TASKFLOW'   in self.run_type:
-            return self.rundataintegration
+            return self.runtaskflow
             #'Data Integration'
 
         if 'DTEMPLATE'  in self.run_type:
@@ -154,12 +173,7 @@ class IICS_Run_Job():
             return self.runingestion
             #return 'Mass Ingestion'
 
-project =['']
-org     = ''
-user    = ''
-pwd     = ''
-jobid   = ''
-jobtype = ''
+
 #['DSS','MI_TASK','TASKFLOW']
 #IICS_Run_Job(org=org,user=user,pwd=pwd,project_list=project,run_type=job_type,jobid= jobid).orchestrate#rundataintegration
 
