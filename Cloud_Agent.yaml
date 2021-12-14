@@ -1,0 +1,19 @@
+#Cloud Agent Config
+-Service:
+        Data Integration Server:
+            -Tomcat:
+                maxDTMProcesses: 				7
+                NetworkTimeoutPeriod: 			600
+            -Tomcat JRE:
+                INFA_MEMORY: 					'-Xms512m -Xmx4096m -XX:MaxPermSize=1024m'
+                JRE_OPTS:						'-Xrs -Djava.io.tmpdir=/app/data_integration_temp'
+            -DTM:
+                AgentConnectionTimeout: 		10
+                OptimizeOracleSQLServerWrite:  'Yes'
+                JVMOption1 : 					'-Xmx8192m'
+                JVMOption3 :					'-Dhttps.proxyHost={add value here}'
+                JVMOption4 :					'-Dhttps.proxyPort=8080'
+                JVMOption6 : 					'-Djava.io.tmpdir=/app/data_integration_temp'
+            -SYSTEM_CFG:
+                TunnelTimeoutPeriod:			600
+					
