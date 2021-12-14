@@ -16,4 +16,3 @@
                 JVMOption6 : 					'-Djava.io.tmpdir=/app/data_integration_temp'
             -SYSTEM_CFG:
                 TunnelTimeoutPeriod:			600
-					
